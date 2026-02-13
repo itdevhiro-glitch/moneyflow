@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MoneyControl Pro | Solusi Keuangan Terpadu</title>
+    <title>Atlantis Money Control (AMC) | Solusi Keuangan Terpadu</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
@@ -14,7 +14,7 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
         
         .animated-bg {
-            background: linear-gradient(-45deg, #4f46e5, #7c3aed, #2563eb, #0891b2);
+            background: linear-gradient(-45deg, #075985, #0ea5e9, #2563eb, #1e40af);
             background-size: 400% 400%;
             animation: gradient 15s ease infinite;
         }
@@ -74,7 +74,7 @@
         .auth-container.right-panel-active .overlay-container { transform: translateX(-100%); }
 
         .overlay {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            background: linear-gradient(135deg, #1e40af 0%, #0ea5e9 100%);
             color: #ffffff;
             position: relative;
             left: -100%;
@@ -128,7 +128,7 @@
             color: #64748b;
             cursor: pointer;
         }
-        .social-btn:hover { background-color: #f8fafc; border-color: #4f46e5; color: #4f46e5; transform: translateY(-3px); }
+        .social-btn:hover { background-color: #f8fafc; border-color: #2563eb; color: #2563eb; transform: translateY(-3px); }
 
         .stagger-item { opacity: 0; transform: translateY(30px); transition: all 0.5s ease-out; }
         .stagger-item.appear { opacity: 1; transform: translateY(0); }
@@ -145,17 +145,17 @@
                 <div class="space-y-4 w-full max-w-sm">
                     <div class="input-group">
                         <i class="fa-solid fa-user"></i>
-                        <input type="text" id="reg-name" placeholder="Nama Lengkap / Perusahaan" class="w-full py-3 bg-slate-100 rounded-xl outline-none text-sm focus:ring-2 focus:ring-indigo-500 transition-all">
+                        <input type="text" id="reg-name" placeholder="Nama Lengkap / Perusahaan" class="w-full py-3 bg-slate-100 rounded-xl outline-none text-sm focus:ring-2 focus:ring-blue-500 transition-all">
                     </div>
                     <div class="input-group">
                         <i class="fa-solid fa-envelope"></i>
-                        <input type="email" id="reg-email" placeholder="Email Kerja / Pribadi" class="w-full py-3 bg-slate-100 rounded-xl outline-none text-sm focus:ring-2 focus:ring-indigo-500 transition-all">
+                        <input type="email" id="reg-email" placeholder="Email Kerja / Pribadi" class="w-full py-3 bg-slate-100 rounded-xl outline-none text-sm focus:ring-2 focus:ring-blue-500 transition-all">
                     </div>
                     <div class="input-group">
                         <i class="fa-solid fa-lock"></i>
-                        <input type="password" id="reg-pass" placeholder="Password" class="w-full py-3 bg-slate-100 rounded-xl outline-none text-sm focus:ring-2 focus:ring-indigo-500 transition-all">
+                        <input type="password" id="reg-pass" placeholder="Password" class="w-full py-3 bg-slate-100 rounded-xl outline-none text-sm focus:ring-2 focus:ring-blue-500 transition-all">
                     </div>
-                    <button onclick="handleAuth('register')" class="w-full bg-indigo-600 text-white font-bold py-3.5 rounded-xl shadow-lg hover:bg-indigo-700 transition-all active:scale-95 uppercase text-xs tracking-widest mt-2">Mulai Sekarang</button>
+                    <button onclick="handleAuth('register')" class="w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl shadow-lg hover:bg-blue-700 transition-all active:scale-95 uppercase text-xs tracking-widest mt-2">Mulai Sekarang</button>
                 </div>
             </div>
 
@@ -165,16 +165,16 @@
                 <div class="space-y-4 w-full max-w-sm">
                     <div class="input-group">
                         <i class="fa-solid fa-envelope"></i>
-                        <input type="email" id="login-email" placeholder="Email" class="w-full py-3 bg-slate-100 rounded-xl outline-none text-sm focus:ring-2 focus:ring-indigo-500 transition-all">
+                        <input type="email" id="login-email" placeholder="Email" class="w-full py-3 bg-slate-100 rounded-xl outline-none text-sm focus:ring-2 focus:ring-blue-500 transition-all">
                     </div>
                     <div class="input-group">
                         <i class="fa-solid fa-lock"></i>
-                        <input type="password" id="login-pass" placeholder="Password" class="w-full py-3 bg-slate-100 rounded-xl outline-none text-sm focus:ring-2 focus:ring-indigo-500 transition-all">
+                        <input type="password" id="login-pass" placeholder="Password" class="w-full py-3 bg-slate-100 rounded-xl outline-none text-sm focus:ring-2 focus:ring-blue-500 transition-all">
                     </div>
                     <div class="text-right">
-                        <a href="#" class="text-xs text-indigo-600 font-semibold hover:underline">Lupa Password?</a>
+                        <a href="#" class="text-xs text-blue-600 font-semibold hover:underline">Lupa Password?</a>
                     </div>
-                    <button onclick="handleAuth('login')" class="w-full bg-indigo-600 text-white font-bold py-3.5 rounded-xl shadow-lg hover:bg-indigo-700 transition-all active:scale-95 uppercase text-xs tracking-widest">Masuk Dashboard</button>
+                    <button onclick="handleAuth('login')" class="w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl shadow-lg hover:bg-blue-700 transition-all active:scale-95 uppercase text-xs tracking-widest">Masuk Dashboard</button>
                     
                     <div class="pt-8 text-center">
                         <p class="text-[10px] text-slate-400 mb-4 uppercase tracking-[0.2em]">Atau masuk melalui mitra resmi</p>
@@ -192,12 +192,12 @@
                     <div class="overlay-panel overlay-left">
                         <h2 class="text-3xl font-bold mb-4">Sudah Memiliki Akun?</h2>
                         <p class="text-sm mb-8 opacity-90 leading-relaxed">Silakan masuk untuk melanjutkan analisis keuangan harian atau laporan bulanan bisnis Anda.</p>
-                        <button onclick="toggleAuth()" class="border-2 border-white px-10 py-2.5 rounded-full font-bold hover:bg-white hover:text-indigo-600 transition-all uppercase text-xs tracking-widest">Sign In</button>
+                        <button onclick="toggleAuth()" class="border-2 border-white px-10 py-2.5 rounded-full font-bold hover:bg-white hover:text-blue-600 transition-all uppercase text-xs tracking-widest">Sign In</button>
                     </div>
                     <div class="overlay-panel overlay-right">
-                        <h2 class="text-3xl font-bold mb-4">Baru di MoneyControl?</h2>
+                        <h2 class="text-3xl font-bold mb-4">Baru di AMC?</h2>
                         <p class="text-sm mb-8 opacity-90 leading-relaxed">Daftarkan perusahaan atau akun pribadi Anda dan nikmati fitur pelacakan otomatis yang cerdas.</p>
-                        <button onclick="toggleAuth()" class="border-2 border-white px-10 py-2.5 rounded-full font-bold hover:bg-white hover:text-indigo-600 transition-all uppercase text-xs tracking-widest">Daftar Akun</button>
+                        <button onclick="toggleAuth()" class="border-2 border-white px-10 py-2.5 rounded-full font-bold hover:bg-white hover:text-blue-600 transition-all uppercase text-xs tracking-widest">Daftar Akun</button>
                     </div>
                 </div>
             </div>
@@ -209,8 +209,8 @@
         <nav class="bg-white/80 backdrop-blur-md border-b sticky top-0 z-50">
             <div class="container mx-auto px-6 py-4 flex justify-between items-center">
                 <div class="flex items-center space-x-2">
-                    <div class="bg-indigo-600 p-2 rounded-xl text-white font-bold shadow-indigo-200 shadow-lg">MC</div>
-                    <span class="text-xl font-extrabold tracking-tight">Money<span class="text-indigo-600">Control</span></span>
+                    <div class="bg-blue-600 p-2 rounded-xl text-white font-bold shadow-blue-200 shadow-lg">AMC</div>
+                    <span class="text-xl font-extrabold tracking-tight">Atlantis <span class="text-blue-600">Money Control</span></span>
                 </div>
                 <div class="flex items-center space-x-6">
                     <span class="text-slate-500 text-sm hidden md:block">Status: <span class="text-emerald-500 font-bold">Terverifikasi</span></span>
@@ -221,7 +221,7 @@
 
         <main class="container mx-auto px-4 lg:px-6 py-10">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                <div class="stagger-item bg-indigo-600 p-8 rounded-[2.5rem] text-white shadow-2xl shadow-indigo-200 relative overflow-hidden">
+                <div class="stagger-item bg-blue-600 p-8 rounded-[2.5rem] text-white shadow-2xl shadow-blue-200 relative overflow-hidden">
                     <div class="relative z-10">
                         <p class="opacity-70 font-medium">Saldo Utama Saat Ini</p>
                         <h3 id="total-balance" class="text-4xl font-extrabold my-2">Rp 0</h3>
@@ -259,9 +259,9 @@
                                     <button onclick="setType('income')" id="btn-inc" class="flex-1 py-3 rounded-xl font-bold transition-all text-slate-500 text-sm">Pemasukan</button>
                                 </div>
                             </div>
-                            <input type="number" id="t-amount" placeholder="Nominal (Rp)" class="w-full p-4 bg-slate-50 border-2 border-transparent focus:border-indigo-500 focus:bg-white rounded-2xl outline-none transition-all text-sm font-semibold">
-                            <input type="text" id="t-category" placeholder="Kategori (Gaji, Alat Kantor, Makan...)" class="w-full p-4 bg-slate-50 border-2 border-transparent focus:border-indigo-500 focus:bg-white rounded-2xl outline-none transition-all text-sm font-semibold">
-                            <button onclick="saveTransaction()" class="w-full bg-slate-900 text-white font-bold py-5 rounded-2xl hover:bg-indigo-600 transition-all shadow-xl active:scale-95 text-sm uppercase tracking-widest">Catat Transaksi</button>
+                            <input type="number" id="t-amount" placeholder="Nominal (Rp)" class="w-full p-4 bg-slate-50 border-2 border-transparent focus:border-blue-500 focus:bg-white rounded-2xl outline-none transition-all text-sm font-semibold">
+                            <input type="text" id="t-category" placeholder="Kategori (Gaji, Alat Kantor, Makan...)" class="w-full p-4 bg-slate-50 border-2 border-transparent focus:border-blue-500 focus:bg-white rounded-2xl outline-none transition-all text-sm font-semibold">
+                            <button onclick="saveTransaction()" class="w-full bg-slate-900 text-white font-bold py-5 rounded-2xl hover:bg-blue-600 transition-all shadow-xl active:scale-95 text-sm uppercase tracking-widest">Catat Transaksi</button>
                         </div>
                     </div>
 
@@ -277,7 +277,7 @@
                     <div class="bg-white p-8 rounded-[2.5rem] shadow-sm min-h-[600px]">
                         <div class="flex justify-between items-center mb-8">
                             <h2 class="text-xl font-bold">Riwayat Aktivitas</h2>
-                            <button class="text-indigo-600 text-sm font-bold hover:underline">Unduh Laporan</button>
+                            <button class="text-blue-600 text-sm font-bold hover:underline">Unduh Laporan</button>
                         </div>
                         <div id="transaction-list" class="space-y-4"></div>
                     </div>
@@ -419,7 +419,7 @@
                     labels: Object.keys(cats),
                     datasets: [{
                         data: Object.values(cats),
-                        backgroundColor: ['#4f46e5', '#f43f5e', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'],
+                        backgroundColor: ['#1e40af', '#f43f5e', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'],
                         borderWidth: 0,
                         hoverOffset: 20
                     }]
