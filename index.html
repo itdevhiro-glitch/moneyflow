@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoneyControl Pro | Solusi Keuangan Terpadu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+        
+        .animated-bg {
+            background: linear-gradient(-45deg, #4f46e5, #7c3aed, #2563eb, #0891b2);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .auth-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            min-height: 580px;
+            background: #fff;
+            border-radius: 2rem;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .form-container {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            transition: all 0.6s ease-in-out;
+            background-color: white;
+        }
+
+        .login-container { left: 0; width: 50%; z-index: 2; }
+        .register-container { left: 0; width: 50%; opacity: 0; z-index: 1; }
+
+        .auth-container.right-panel-active .login-container { transform: translateX(100%); opacity: 0; }
+        .auth-container.right-panel-active .register-container {
+            transform: translateX(100%);
+            opacity: 1;
+            z-index: 5;
+            animation: show 0.6s;
+        }
+
+        @keyframes show {
+            0%, 49.99% { opacity: 0; z-index: 1; }
+            50%, 100% { opacity: 1; z-index: 5; }
+        }
+
+        .overlay-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            transition: transform 0.6s ease-in-out;
+            z-index: 100;
+        }
+
+        .auth-container.right-panel-active .overlay-container { transform: translateX(-100%); }
+
+        .overlay {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #ffffff;
+            position: relative;
+            left: -100%;
+            height: 100%;
+            width: 200%;
+            transform: translateX(0);
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .auth-container.right-panel-active .overlay { transform: translateX(50%); }
+
+        .overlay-panel {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 50px;
+            text-align: center;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .overlay-left { transform: translateX(-20%); }
+        .auth-container.right-panel-active .overlay-left { transform: translateX(0); }
+        .overlay-right { right: 0; transform: translateX(0); }
+        .auth-container.right-panel-active .overlay-right { transform: translateX(20%); }
+
+        .input-group { position: relative; width: 100%; }
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+        }
+        .input-group input { padding-left: 45px; }
+
+        .social-btn {
+            width: 42px;
+            height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            margin: 0 8px;
+            transition: all 0.3s;
+            color: #64748b;
+            cursor: pointer;
+        }
+        .social-btn:hover { background-color: #f8fafc; border-color: #4f46e5; color: #4f46e5; transform: translateY(-3px); }
+
+        .stagger-item { opacity: 0; transform: translateY(30px); transition: all 0.5s ease-out; }
+        .stagger-item.appear { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+
+    <div id="auth-section" class="animated-bg min-h-screen flex items-center justify-center p-6">
+        <div class="auth-container" id="container">
+            
+            <div class="form-container register-container p-12 flex flex-col justify-center items-center">
+                <h2 class="text-3xl font-extrabold text-slate-800 mb-2">Daftar Akun</h2>
+                <p class="text-slate-400 text-sm mb-8 text-center">Kelola arus kas bisnis dan pribadi dalam satu dashboard.</p>
+                <div class="space-y-4 w-full max-w-sm">
+                    <div class="input-group">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="reg-name" placeholder="Nama Lengkap / Perusahaan" class="w-full py-3 bg-slate-100 rounded-xl outline-none text-sm focus:ring-2 focus:ring-indigo-500 transition-all">
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="reg-email" placeholder="Email Kerja / Pribadi" class="w-full py-3 bg-slate-100 rounded-xl outline-none text-sm focus:ring-2 focus:ring-indigo-500 transition-all">
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="reg-pass" placeholder="Password" class="w-full py-3 bg-slate-100 rounded-xl outline-none text-sm focus:ring-2 focus:ring-indigo-500 transition-all">
+                    </div>
+                    <button onclick="handleAuth('register')" class="w-full bg-indigo-600 text-white font-bold py-3.5 rounded-xl shadow-lg hover:bg-indigo-700 transition-all active:scale-95 uppercase text-xs tracking-widest mt-2">Mulai Sekarang</button>
+                </div>
+            </div>
+
+            <div class="form-container login-container p-12 flex flex-col justify-center items-center">
+                <h2 class="text-3xl font-extrabold text-slate-800 mb-2">Selamat Datang</h2>
+                <p class="text-slate-400 text-sm mb-8">Masuk untuk memantau performa keuangan Anda.</p>
+                <div class="space-y-4 w-full max-w-sm">
+                    <div class="input-group">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="login-email" placeholder="Email" class="w-full py-3 bg-slate-100 rounded-xl outline-none text-sm focus:ring-2 focus:ring-indigo-500 transition-all">
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="login-pass" placeholder="Password" class="w-full py-3 bg-slate-100 rounded-xl outline-none text-sm focus:ring-2 focus:ring-indigo-500 transition-all">
+                    </div>
+                    <div class="text-right">
+                        <a href="#" class="text-xs text-indigo-600 font-semibold hover:underline">Lupa Password?</a>
+                    </div>
+                    <button onclick="handleAuth('login')" class="w-full bg-indigo-600 text-white font-bold py-3.5 rounded-xl shadow-lg hover:bg-indigo-700 transition-all active:scale-95 uppercase text-xs tracking-widest">Masuk Dashboard</button>
+                    
+                    <div class="pt-8 text-center">
+                        <p class="text-[10px] text-slate-400 mb-4 uppercase tracking-[0.2em]">Atau masuk melalui mitra resmi</p>
+                        <div class="flex justify-center">
+                            <div onclick="loginWithGoogle()" class="social-btn"><i class="fa-brands fa-google"></i></div>
+                            <div class="social-btn"><i class="fa-brands fa-microsoft"></i></div>
+                            <div class="social-btn"><i class="fa-brands fa-apple"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="overlay-container">
+                <div class="overlay">
+                    <div class="overlay-panel overlay-left">
+                        <h2 class="text-3xl font-bold mb-4">Sudah Memiliki Akun?</h2>
+                        <p class="text-sm mb-8 opacity-90 leading-relaxed">Silakan masuk untuk melanjutkan analisis keuangan harian atau laporan bulanan bisnis Anda.</p>
+                        <button onclick="toggleAuth()" class="border-2 border-white px-10 py-2.5 rounded-full font-bold hover:bg-white hover:text-indigo-600 transition-all uppercase text-xs tracking-widest">Sign In</button>
+                    </div>
+                    <div class="overlay-panel overlay-right">
+                        <h2 class="text-3xl font-bold mb-4">Baru di MoneyControl?</h2>
+                        <p class="text-sm mb-8 opacity-90 leading-relaxed">Daftarkan perusahaan atau akun pribadi Anda dan nikmati fitur pelacakan otomatis yang cerdas.</p>
+                        <button onclick="toggleAuth()" class="border-2 border-white px-10 py-2.5 rounded-full font-bold hover:bg-white hover:text-indigo-600 transition-all uppercase text-xs tracking-widest">Daftar Akun</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="main-dashboard" class="hidden">
+        <nav class="bg-white/80 backdrop-blur-md border-b sticky top-0 z-50">
+            <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <div class="bg-indigo-600 p-2 rounded-xl text-white font-bold shadow-indigo-200 shadow-lg">MC</div>
+                    <span class="text-xl font-extrabold tracking-tight">Money<span class="text-indigo-600">Control</span></span>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <span class="text-slate-500 text-sm hidden md:block">Status: <span class="text-emerald-500 font-bold">Terverifikasi</span></span>
+                    <button onclick="logout()" class="text-slate-400 hover:text-red-500 transition-colors font-semibold text-sm">Keluar</button>
+                </div>
+            </div>
+        </nav>
+
+        <main class="container mx-auto px-4 lg:px-6 py-10">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <div class="stagger-item bg-indigo-600 p-8 rounded-[2.5rem] text-white shadow-2xl shadow-indigo-200 relative overflow-hidden">
+                    <div class="relative z-10">
+                        <p class="opacity-70 font-medium">Saldo Utama Saat Ini</p>
+                        <h3 id="total-balance" class="text-4xl font-extrabold my-2">Rp 0</h3>
+                        <div class="w-24 h-1 bg-white/30 rounded-full"></div>
+                    </div>
+                    <svg class="absolute right-[-20px] bottom-[-20px] w-40 h-40 text-white/10" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10a8 8 0 018-8v8a8 8 0 11-8 8z"></path></svg>
+                </div>
+                
+                <div class="stagger-item bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <div class="bg-emerald-100 text-emerald-600 p-3 rounded-2xl">↑</div>
+                        <p class="text-slate-400 font-bold text-xs uppercase tracking-widest">Total Pemasukan</p>
+                    </div>
+                    <h3 id="total-income" class="text-3xl font-bold text-emerald-500">Rp 0</h3>
+                </div>
+
+                <div class="stagger-item bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <div class="bg-rose-100 text-rose-600 p-3 rounded-2xl">↓</div>
+                        <p class="text-slate-400 font-bold text-xs uppercase tracking-widest">Total Pengeluaran</p>
+                    </div>
+                    <h3 id="total-expense" class="text-3xl font-bold text-rose-500">Rp 0</h3>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                <div class="lg:col-span-4 space-y-8">
+                    <div class="stagger-item bg-white p-8 rounded-[2.5rem] shadow-xl border border-slate-50">
+                        <h2 class="text-xl font-extrabold mb-6">Input Transaksi</h2>
+                        <div class="space-y-5">
+                            <div class="group">
+                                <label class="text-[10px] font-bold text-slate-400 uppercase ml-2 mb-2 block">Jenis Transaksi</label>
+                                <div class="flex bg-slate-100 p-1.5 rounded-2xl">
+                                    <button onclick="setType('expense')" id="btn-exp" class="flex-1 py-3 rounded-xl font-bold transition-all bg-white shadow-sm text-rose-500 text-sm">Pengeluaran</button>
+                                    <button onclick="setType('income')" id="btn-inc" class="flex-1 py-3 rounded-xl font-bold transition-all text-slate-500 text-sm">Pemasukan</button>
+                                </div>
+                            </div>
+                            <input type="number" id="t-amount" placeholder="Nominal (Rp)" class="w-full p-4 bg-slate-50 border-2 border-transparent focus:border-indigo-500 focus:bg-white rounded-2xl outline-none transition-all text-sm font-semibold">
+                            <input type="text" id="t-category" placeholder="Kategori (Gaji, Alat Kantor, Makan...)" class="w-full p-4 bg-slate-50 border-2 border-transparent focus:border-indigo-500 focus:bg-white rounded-2xl outline-none transition-all text-sm font-semibold">
+                            <button onclick="saveTransaction()" class="w-full bg-slate-900 text-white font-bold py-5 rounded-2xl hover:bg-indigo-600 transition-all shadow-xl active:scale-95 text-sm uppercase tracking-widest">Catat Transaksi</button>
+                        </div>
+                    </div>
+
+                    <div class="stagger-item bg-white p-8 rounded-[2.5rem] shadow-sm">
+                        <h2 class="text-lg font-bold mb-6 flex items-center">
+                            <span class="mr-2">📊</span> Analisis Kategori
+                        </h2>
+                        <canvas id="expenseChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-8 stagger-item">
+                    <div class="bg-white p-8 rounded-[2.5rem] shadow-sm min-h-[600px]">
+                        <div class="flex justify-between items-center mb-8">
+                            <h2 class="text-xl font-bold">Riwayat Aktivitas</h2>
+                            <button class="text-indigo-600 text-sm font-bold hover:underline">Unduh Laporan</button>
+                        </div>
+                        <div id="transaction-list" class="space-y-4"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, where, onSnapshot, orderBy } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDv7BcQvQf2IJ_X4gz5TNCwUUk13dtQ8a4",
+            authDomain: "moneycontrol-93364.firebaseapp.com",
+            projectId: "moneycontrol-93364",
+            storageBucket: "moneycontrol-93364.firebasestorage.app",
+            messagingSenderId: "511802621067",
+            appId: "1:511802621067:web:0ec82a90afd157278c688e"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
+        let selectedType = 'expense';
+        let myChart = null;
+
+        window.toggleAuth = () => {
+            document.getElementById('container').classList.toggle('right-panel-active');
+        };
+
+        window.loginWithGoogle = async () => {
+            try {
+                await signInWithPopup(auth, provider);
+            } catch (err) {
+                alert("Gagal login Google: " + err.message);
+            }
+        };
+
+        window.handleAuth = async (mode) => {
+            const email = mode === 'login' ? document.getElementById('login-email').value : document.getElementById('reg-email').value;
+            const pass = mode === 'login' ? document.getElementById('login-pass').value : document.getElementById('reg-pass').value;
+            try {
+                if (mode === 'register') await createUserWithEmailAndPassword(auth, email, pass);
+                else await signInWithEmailAndPassword(auth, email, pass);
+            } catch (err) { alert("Error: " + err.message); }
+        };
+
+        window.logout = () => signOut(auth);
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('auth-section').classList.add('hidden');
+                document.getElementById('main-dashboard').classList.remove('hidden');
+                setTimeout(() => {
+                    document.querySelectorAll('.stagger-item').forEach((el, i) => {
+                        setTimeout(() => el.classList.add('appear'), i * 150);
+                    });
+                }, 100);
+                loadData(user.uid);
+            } else {
+                document.getElementById('auth-section').classList.remove('hidden');
+                document.getElementById('main-dashboard').classList.add('hidden');
+            }
+        });
+
+        window.setType = (type) => {
+            selectedType = type;
+            const btnExp = document.getElementById('btn-exp');
+            const btnInc = document.getElementById('btn-inc');
+            if(type === 'expense') {
+                btnExp.className = "flex-1 py-3 rounded-xl font-bold transition-all bg-white shadow-sm text-rose-500 text-sm";
+                btnInc.className = "flex-1 py-3 rounded-xl font-bold transition-all text-slate-500 text-sm";
+            } else {
+                btnInc.className = "flex-1 py-3 rounded-xl font-bold transition-all bg-white shadow-sm text-emerald-500 text-sm";
+                btnExp.className = "flex-1 py-3 rounded-xl font-bold transition-all text-slate-500 text-sm";
+            }
+        };
+
+        window.saveTransaction = async () => {
+            const amt = document.getElementById('t-amount').value;
+            const cat = document.getElementById('t-category').value;
+            if(!amt || !cat) return alert("Mohon isi nominal dan kategori!");
+            await addDoc(collection(db, "transactions"), {
+                uid: auth.currentUser.uid,
+                amount: parseFloat(amt),
+                type: selectedType,
+                category: cat,
+                createdAt: new Date()
+            });
+            document.getElementById('t-amount').value = '';
+            document.getElementById('t-category').value = '';
+        };
+
+        function loadData(uid) {
+            const q = query(collection(db, "transactions"), where("uid", "==", uid), orderBy("createdAt", "desc"));
+            onSnapshot(q, (snap) => {
+                let html = '';
+                let inc = 0, exp = 0, cats = {};
+                snap.forEach((doc) => {
+                    const d = doc.data();
+                    const isExp = d.type === 'expense';
+                    isExp ? exp += d.amount : inc += d.amount;
+                    if(isExp) cats[d.category] = (cats[d.category] || 0) + d.amount;
+
+                    html += `
+                        <div class="flex items-center justify-between p-6 bg-slate-50 rounded-[2rem] hover:bg-white hover:shadow-xl hover:scale-[1.01] transition-all">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 rounded-2xl flex items-center justify-center ${isExp ? 'bg-rose-100 text-rose-500' : 'bg-emerald-100 text-emerald-500'} font-bold">
+                                    <i class="fa-solid ${isExp ? 'fa-arrow-down' : 'fa-arrow-up'}"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-slate-800">${d.category}</p>
+                                    <p class="text-[10px] text-slate-400 uppercase tracking-widest">${d.createdAt.toDate().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' })}</p>
+                                </div>
+                            </div>
+                            <p class="text-lg font-extrabold ${isExp ? 'text-rose-500' : 'text-emerald-500'}">
+                                ${isExp ? '-' : '+'} Rp ${d.amount.toLocaleString('id-ID')}
+                            </p>
+                        </div>
+                    `;
+                });
+                document.getElementById('transaction-list').innerHTML = html || '<p class="text-center text-slate-400 py-10">Belum ada riwayat transaksi.</p>';
+                document.getElementById('total-income').innerText = `Rp ${inc.toLocaleString('id-ID')}`;
+                document.getElementById('total-expense').innerText = `Rp ${exp.toLocaleString('id-ID')}`;
+                document.getElementById('total-balance').innerText = `Rp ${(inc - exp).toLocaleString('id-ID')}`;
+                updateChart(cats);
+            });
+        }
+
+        function updateChart(cats) {
+            const ctx = document.getElementById('expenseChart');
+            if(myChart) myChart.destroy();
+            myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(cats),
+                    datasets: [{
+                        data: Object.values(cats),
+                        backgroundColor: ['#4f46e5', '#f43f5e', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'],
+                        borderWidth: 0,
+                        hoverOffset: 20
+                    }]
+                },
+                options: { cutout: '75%', plugins: { legend: { display: false } } }
+            });
+        }
+    </script>
+</body>
+</html>
